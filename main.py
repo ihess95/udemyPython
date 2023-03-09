@@ -1,9 +1,15 @@
-user_prompt = "Enter a todo: "
-todo1 = input(user_prompt)
-todo2 = input(user_prompt)
-todo3 = input(user_prompt)
+todos = []
 
-todos = [todo1, todo2, todo3]
-print(todos)
+while True:
+    user_action = input("Type add or show or q to quit: ")
 
-print(type(user_prompt))
+    match user_action:
+        case 'add':
+            todo = input("Enter a todo: ")
+            todos.append(todo)
+        case 'show':
+            print(todos)
+        case 'q':
+            break
+
+print("exited")
