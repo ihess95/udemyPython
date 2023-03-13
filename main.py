@@ -7,41 +7,50 @@ while True:
     match user_action:
         case 'add':
             todo = input("Enter a todo: ") + "\n"
-            
-            readFile = open('todos.txt', 'r')
-            todos = readFile.readlines()
-            readFile.close()
+
+            with open('todos.txt', 'r') as file:
+                todos = file.readlines()
 
             todos.append(todo)
 
-
-            writeFile = open('todos.txt', 'w')
-            writeFile.writelines(todos)
-            writeFile.close()
+            with open('todos.txt', 'w') as file:
+                file.writelines(todos)
             
         case 'show' | 'display':
-            readFile = open('todos.txt', 'r')
-            todos = readFile.readlines()
-            readFile.close()
+            with open('todos.txt', 'r') as file:
+                todos = file.readlines()
+            # new_todos = [item.strip('\n') for item in todos]
 
             for index, item in enumerate(todos):
+                item = item.strip('\n')
                 print(f'{index + 1}-{item}')
         case 'q':
             break
         case 'edit':
             try:
+                with open('todos.txt', 'r') as file:
+                    todos = file.readlines()
                 to_edit = input('Which todo would you like to edit? ')
                 edit = input(f'What would you like to change {todos[int(to_edit)-1]} to? ')
-                todos[int(to_edit)-1] = edit
+                todos[int(to_edit)-1] = f'{edit}\n'
+                with open('todos.txt', 'w') as file:
+                    file.writelines(todos)
             except:
-                print(f"That is not a valid task. Please choose a number between one and {len(todo)-1}")
+                print(f"That is not a valid task. Please choose a number between one and {len(todos)-1}")
             
         case 'complete':
-            try:
-                completed = input('Which task would you like to remove? ')
-                todos.pop(int(completed)-1)
-            except:
-                print("Invalid index, please try again.")
+            # try:
+            with open('todos.txt', 'r') as file:
+                todos = file.readlines()
+            completed = input(f'Which task would you like to remove?')
+            index = int(completed) -1
+            print(f"You've deleted {todos[index]}.")
+            todos.pop(index)
+            with open('todos.txt', 'w') as file:
+                file.writelines(todos)
+
+            # except:
+            #     print("Invalid index, please try again.")
         case _:
             print("Hey, you entered an invalid input.")
 
