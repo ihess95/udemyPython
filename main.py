@@ -1,7 +1,7 @@
 todos = []
 
 while True:
-    user_action = input("Type add, show, edit or q to quit: ")
+    user_action = input("Type add, show, edit, complete to remove a task, or q to quit: ")
     user_action = user_action.strip()
 
     match user_action:
@@ -9,8 +9,8 @@ while True:
             todo = input("Enter a todo: ")
             todos.append(todo)
         case 'show' | 'display':
-            for item in todos:
-                print(item)
+            for index, item in enumerate(todos):
+                print(f'{index + 1}-{item}')
         case 'q':
             break
         case 'edit':
@@ -21,6 +21,12 @@ while True:
             except:
                 print(f"That is not a valid task. Please choose a number between one and {len(todo)-1}")
             
+        case 'complete':
+            try:
+                completed = input('Which task would you like to remove? ')
+                todos.pop(int(completed)-1)
+            except:
+                print("Invalid index, please try again.")
         case _:
             print("Hey, you entered an invalid input.")
 
